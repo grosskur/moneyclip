@@ -40,15 +40,15 @@ For example:
 
     $ cat config-example.json
     {
-      "accounts": {
-        "Chase - Checking": {"cash": 563.21},
-        "Chase - Savings": {"cash": 1042.14},
-        "Treasury Direct": {"ibnd": 1000.00},
-        "Schwab - Brokerage": {"AMZN": 2, "TSLA": 3, "YHOO": 3},
-        "Vanguard - Mutual Funds": {"VTSMX": 7.760, "VGTSX": 47.096, "VWLTX": 4.014},
-        "Vanguard - Trad IRA": {"VASGX": 121.760},
-        "Vanguard - Roth IRA": {"VASGX": 125.861}
-      },
+      "accounts": [
+        {"name": "Chase - Checking", "holdings": {"cash": 563.21}},
+        {"name": "Chase - Savings", "holdings": {"cash": 1042.14}},
+        {"name": "Treasury Direct", "holdings": {"ibnd": 1000.00}},
+        {"name": "Schwab - Brokerage", "holdings": {"AMZN": 2, "TSLA": 3, "YHOO": 3}},
+        {"name": "Vanguard - Mutual Funds", "holdings": {"VTSMX": 7.760, "VGTSX": 47.096, "VWLTX": 4.014}},
+        {"name": "Vanguard - Trad IRA", "holdings": {"VASGX": 121.760}},
+        {"name": "Vanguard - Roth IRA", "holdings": {"VASGX": 125.861}}
+      ],
       "investments": {
         "cash": {"mer": 0.0, "composition": [0.0, 0.0, 0.0, 100.0], "price": 1.0},
         "ibnd": {"mer": 0.0, "composition": [0.0, 0.0, 100.0, 0.0], "price": 1.0},
