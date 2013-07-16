@@ -1,0 +1,109 @@
+#!/usr/bin/python -B
+"""
+Personal finance tool to summarize total asset allocation and fees
+
+Read a JSON file from stdin containing account and investment
+info. Fetch the latest prices for investments from the Yahoo Finance
+API. Print a the asset allocation for each account, i.e., the
+percentage breakdown between US stocks, international stocks, fixed
+income, and cash, as well as annual fees. Compute the total asset
+allocation across all accounts and prin it as well as total fees.
+"""
+import json
+import sys
+import urllib2
+
+
+def main(args):
+    data = json.load(sys.stdin)
+    symbols = [k for k, v in data['investments'].items() if 'price' not in v]
+    stock_data = lookup(symbols)
+    for i in stock_data:
+        data['investments'][i['symbol']]['price'] = float(i['LastTradePriceOnly'])
+
+    value_total = 0
+    fees_total = 0
+    comp_total = [0.0, 0.0, 0.0, 0.0]
+    print 'ACCOUNTS' + ' ' * 25 + 'VALUE' + ' ' * 4 + '  US' + ' ' * 2 + 'INTL' + ' ' * 2 + 'FIXD' + ' ' * 2 + 'CASH' + ' ' * 5 + 'FEES'
+    print get_sep()
+    for account in data['accounts']:
+        value_account = 0
+        fees_account = 0
+        comp_account = [0.0, 0.0, 0.0, 0.0]
+        for k, v in account['holdings'].iteritems():
+            value = data['investments'][k]['price'] * float(v)
+            value_account += value
+
+            fees = value * data['investments'][k]['mer'] * 0.01
+            fees_account += fees
+            comp = [i * value for i in data['investments'][k]['composition']]
+
+            for i in xrange(4):
+                comp_account[i] += comp[i]
+                comp_total[i] += comp[i]
+
+        comp_percent = get_comp_percent(comp_account)
+        value_total += value_account
+        fees_total += fees_account
+        print '{:<23}    ${:10,d}    {:3.0f}%  {:3.0f}%  {:3.0f}%  {:3.0f}%    ${:4,d}'.format(
+            account['name'],
+            int(value_account),
+            round(comp_percent[0]*100),
+            round(comp_percent[1]*100),
+            round(comp_percent[2]*100),
+            round(comp_percent[3]*100), 
+            int(fees_account),
+        )
+
+    comp_percent = get_comp_percent(comp_total)
+    print get_sep()
+    print '{:<23}    ${:10,d}    {:3.0f}%  {:3.0f}%  {:3.0f}%  {:3.0f}%    ${:4,d}'.format(
+        'TOTAL',
+        int(value_total),
+        round(comp_percent[0]*100),
+        round(comp_percent[1]*100),
+        round(comp_percent[2]*100),
+        round(comp_percent[3]*100),
+        int(fees_total),
+    )
+
+
+def get_sep():
+    return '-' * 23 + '    ' + '-' * 11 + '    ' + ('-' * 4 + '  ') * 4 + '  ' + '-' * 5
+
+
+def get_comp_percent(comp):
+    comp_percent = [0.0, 0.0, 0.0, 0.0]
+    for i in xrange(4):
+        comp_percent[i] = comp[i] / (comp[0] + comp[1] + comp[2] + comp[3])
+    return comp_percent
+
+
+def lookup(symbols):
+    yql = "select * from yahoo.finance.quotes where symbol in ('" + \
+        "','".join(symbols) + \
+        "')"
+    url = "http://query.yahooapis.com/v1/public/yql?q=" + \
+        urllib2.quote(yql) + \
+        "&format=json&env=http%3A%2F%2Fdatatables.org%2Falltables.env&callback="
+    
+    try: 
+        result = urllib2.urlopen(url)
+    except urllib2.HTTPError, e:        
+        print ("HTTP error: ", e.code)        
+    except urllib2.URLError, e:
+        print ("Network error: ", e.reason)
+       
+    data = json.loads(result.read())
+    quotes = data['query']['results']['quote']
+    
+    if isinstance(quotes, dict):
+        return [quotes]
+    return quotes
+
+
+if __name__ == '__main__':
+    try:
+        main(sys.argv[1:])
+    except KeyboardInterrupt:
+        print >> sys.stderr, 'interrupted'

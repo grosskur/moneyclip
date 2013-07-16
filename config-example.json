@@ -1,0 +1,90 @@
+{
+  "accounts": [
+    {
+      "name": "Chase - Checking",
+      "holdings": {
+        "cash": 563.21
+      }
+    },
+    {
+      "name": "Chase - Savings",
+      "holdings": {
+        "cash": 1042.14
+      }
+    },
+    {
+      "name": "Treasury Direct",
+      "holdings": {
+          "ibnd": 1000.00
+      }
+    },
+    {
+      "name": "Schwab - Brokerage",
+      "holdings": {
+          "AMZN": 2,
+          "TSLA": 3,
+          "YHOO": 3
+      }
+    },
+    {
+      "name": "Vanguard - Mutual Funds",
+      "holdings": {
+          "VTSMX": 7.760,
+          "VGTSX": 47.096,
+          "VWLTX": 4.014
+      }
+    },
+    {
+      "name": "Vanguard - Trad IRA",
+      "holdings": {
+          "VASGX": 121.760
+      }
+    },
+    {
+      "name": "Vanguard - Roth IRA",
+      "holdings": {
+          "VASGX": 125.861
+      }
+    }
+  ],
+  "investments": {
+    "cash": {
+      "mer": 0.0,
+      "composition": [0.0, 0.0, 0.0, 100.0],
+      "price": 1.0
+    },
+    "ibnd": {
+      "mer": 0.0,
+      "composition": [0.0, 0.0, 100.0, 0.0],
+      "price": 1.0
+    },
+    "AMZN": {
+      "mer": 0.0,
+      "composition": [100.0, 0.0, 0.0, 0.0]
+    },
+    "TSLA": {
+      "mer": 0.0,
+      "composition": [100.0, 0.0, 0.0, 0.0]
+    },
+    "VASGX": {
+      "mer": 0.17,
+      "composition": [56.6, 23.5, 19.9, 0.0]
+    },
+    "VGTSX": {
+      "mer": 0.22,
+      "composition": [0.0, 100.0, 0.0, 0.0]
+    },
+    "VTSMX": {
+      "mer": 0.17,
+      "composition": [100.0, 0.0, 0.0, 0.0]
+    },
+    "VWLTX": {
+      "mer": 0.20,
+      "composition": [0.0, 0.0, 100.0, 0.0]
+    },
+    "YHOO": {
+      "mer": 0.0,
+      "composition": [100.0, 0.0, 0.0, 0.0]
+    }
+  }
+}
