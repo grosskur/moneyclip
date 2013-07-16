@@ -5,9 +5,9 @@ Personal finance tool to summarize total asset allocation and fees
 Read a JSON file from stdin containing account and investment
 info. Fetch the latest prices for investments from the Yahoo Finance
 API. Print a the asset allocation for each account, i.e., the
-percentage breakdown between US stocks, international stocks, fixed
-income, and cash, as well as annual fees. Compute the total asset
-allocation across all accounts and prin it as well as total fees.
+percentage breakdown of US stocks, international stocks, fixed income,
+and cash, as well as annual fees. Compute the total asset allocation
+across all accounts and print it as well as total fees.
 """
 import json
 import sys
